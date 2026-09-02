@@ -17,11 +17,34 @@ const EMAILJS_PUBLIC_KEY = '7UvSbXxegKQ-Yvoqy';
 const EMAILJS_SERVICE_ID = 'service_oru5nm2';
 const EMAILJS_TEMPLATE_ID = 'template_r1feoxe';
 
-// Swap for wherever lead-generation.html actually ends up hosted (e.g. GitHub Pages).
-const LEAD_GEN_PAGE_URL = 'https://claude.ai/code/artifact/bd03b081-0fff-4951-9448-5fb248278375';
+// Absolute URL built from the current host, so the emailed button works wherever this is deployed.
+const LEAD_GEN_PAGE_URL = new URL('dashboard.html', window.location.href).href;
 
 if (!EMAILJS_PUBLIC_KEY.startsWith('PASTE_')) {
   emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+}
+
+// Requests are kept in browser storage so the dashboard can list them. Swap these two
+// functions for a database call when the pipeline needs to be shared across machines.
+const STORAGE_KEY = 'flapkap_requests';
+
+function loadRequests() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  } catch (err) {
+    console.warn('Could not read stored requests:', err);
+    return [];
+  }
+}
+
+function saveRequest(record) {
+  try {
+    const all = loadRequests();
+    all.push(record);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+  } catch (err) {
+    console.warn('Could not store request:', err);
+  }
 }
 
 requestSelect.addEventListener('change', () => {
@@ -78,7 +101,8 @@ form.addEventListener('submit', async (e) => {
 
   const requestValue = requestSelect.value;
   const bdrEmail = document.getElementById('name').value.trim();
-  const industry = document.getElementById('industry').value;
+  const industrySelect = document.getElementById('industry');
+  const industry = industrySelect.options[industrySelect.selectedIndex].text;
   const requestLabel = REQUEST_LABELS[requestValue] || requestValue;
   const linkedinUrl = requestValue === 'find-contact' ? linkedinInput.value.trim() : null;
   const requestSummary = linkedinUrl ? requestLabel + ' — ' + linkedinUrl : requestLabel;
@@ -111,6 +135,16 @@ form.addEventListener('submit', async (e) => {
       return;
     }
   }
+
+  saveRequest({
+    id: Date.now(),
+    from: bdrEmail,
+    industry,
+    request: requestSummary,
+    requestedAt: new Date().toISOString(),
+    link: fileLink || null,
+    fulfilledAt: null,
+  });
 
   formView.hidden = true;
   thankYouView.hidden = false;

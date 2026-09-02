@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlapKap Lead Gen Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="dashboard.css">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+<main class="card">
+  <div class="card-head">
+    <h1>Flapkap lead generation Dashboard</h1>
+    <span class="logo" aria-label="FlapKap">
+      <span class="logo-text">FlapKap</span>
+      <span class="logo-mark" aria-hidden="true">
+        <span class="teal"></span>
+        <span class="blue"></span>
+      </span>
+    </span>
+  </div>
+
+  <section class="stat">
+    <div>
+      <p class="stat-label">How many requests reached out</p>
+      <p class="stat-sub" id="statSub">&nbsp;</p>
+    </div>
+    <div class="ring" id="ring" role="img">
+      <svg width="104" height="104" viewBox="0 0 104 104">
+        <circle class="ring-track" cx="52" cy="52" r="44" fill="none" stroke-width="9"></circle>
+        <circle class="ring-fill" id="ringFill" cx="52" cy="52" r="44" fill="none" stroke-width="9"
+                stroke-dasharray="276.5" stroke-dashoffset="276.5"></circle>
+      </svg>
+      <span class="ring-value" id="ringValue">0%</span>
+    </div>
+  </section>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Request Number</th>
+          <th>Request from</th>
+          <th>Industry</th>
+          <th>Specific request</th>
+          <th>Time of request</th>
+          <th>Request Link</th>
+          <th>Time taken in request</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <p class="note" id="note"></p>
+</main>
+
+<script src="dashboard.js"></script>
+</body>
+</html>
