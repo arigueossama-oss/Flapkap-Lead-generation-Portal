@@ -1,0 +1,266 @@
+:root {
+  --bg: #1f14c9;
+  --bg-deep: #150c9e;
+  --grid-line: rgba(255, 255, 255, 0.08);
+  --card-bg: #ffffff;
+  --card-ring: rgba(16, 24, 40, 0.05);
+  --text: #101828;
+  --text-muted: #8a8f98;
+  --input-bg: #eceef0;
+  --input-bg-focus: #ffffff;
+  --blue: #2f7bf6;
+  --blue-dark: #1e6fe0;
+  --blue-tint: rgba(47, 123, 246, 0.5);
+  --green: #4caf6a;
+  --green-dark: #3e9c58;
+  --green-disabled: #a9d9b8;
+  --error: #e0453c;
+  --error-bg: #fdf1f0;
+  --flapkap-blue: #2415e0;
+  --flapkap-teal: #14d8c4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(circle at 18% 15%, var(--bg) 0%, var(--bg-deep) 62%),
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: auto, 40px 40px, 40px 40px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  padding: 40px 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 48px 56px 56px;
+  box-shadow: 0 0 0 1px var(--card-ring), 0 30px 60px -20px rgba(9, 6, 74, 0.45);
+  transition: max-width 0.25s ease;
+}
+
+.card.card--thankyou {
+  max-width: 620px;
+}
+
+.logo {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 44px;
+}
+
+.logo-text {
+  font-family: "Poppins", "Inter", sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.logo-mark {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  margin-top: -10px;
+  flex-shrink: 0;
+}
+
+.logo-mark .teal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 62%;
+  height: 62%;
+  background: var(--flapkap-teal);
+  border-radius: 32% 32% 32% 4%;
+}
+
+.logo-mark .blue {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 84%;
+  height: 84%;
+  background: var(--flapkap-blue);
+  border-radius: 32% 32% 32% 4%;
+}
+
+.title {
+  font-family: "Poppins", "Inter", sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  text-wrap: balance;
+  color: var(--text);
+  margin: 0 0 32px;
+}
+
+.field {
+  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  background-color: var(--input-bg);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  appearance: none;
+}
+
+.field select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%238a8f98' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.field select:invalid { color: var(--text-muted); }
+.field select option { color: var(--text); background: var(--card-bg); }
+
+.field input:focus,
+.field select:focus,
+.confirm-btn:focus-visible {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-tint);
+}
+
+.field.invalid input,
+.field.invalid select {
+  border-color: var(--error);
+  background-color: var(--error-bg);
+}
+
+.error-msg {
+  min-height: 16px;
+  font-size: 12px;
+  color: var(--error);
+  margin-top: 4px;
+}
+
+.confirm-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: var(--green);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.confirm-btn:hover { background-color: var(--green-dark); }
+.confirm-btn:active { transform: translateY(1px); }
+.confirm-btn:disabled { background-color: var(--green-disabled); cursor: not-allowed; }
+
+.thankyou {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 88px 24px 96px;
+  animation: thankyou-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.thankyou-headline {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: "Poppins", "Inter", sans-serif;
+  font-weight: 800;
+  font-size: 72px;
+  line-height: 0.95;
+  letter-spacing: -1.5px;
+  color: var(--blue);
+}
+
+.thankyou-line2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.thankyou-arrow {
+  width: 74px;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.thankyou-arrow svg {
+  width: 30px;
+  height: 30px;
+}
+
+.thankyou-message {
+  margin: 40px 0 0;
+  max-width: 400px;
+  font-family: "Poppins", "Inter", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--flapkap-blue);
+}
+
+@keyframes thankyou-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confirm-btn, .field input, .field select { transition: none; }
+  .thankyou { animation: none; }
+}
+
+@media (max-width: 520px) {
+  .card { padding: 36px 24px 44px; }
+  .card.card--thankyou { max-width: 460px; }
+  .thankyou { padding: 56px 12px 64px; }
+  .thankyou-headline { font-size: 48px; }
+  .thankyou-arrow { width: 54px; height: 34px; }
+  .thankyou-arrow svg { width: 22px; height: 22px; }
+  .thankyou-message { font-size: 16px; }
+}

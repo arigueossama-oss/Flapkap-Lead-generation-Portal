@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlapKap Data Request</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+
+<main class="card">
+<div id="formView" class="view">
+  <div class="logo">
+    <span class="logo-text">FlapKap</span>
+    <span class="logo-mark" aria-hidden="true">
+      <span class="teal"></span>
+      <span class="blue"></span>
+    </span>
+  </div>
+
+  <h1 class="title">Flapkap Data request</h1>
+
+  <form id="dataRequestForm" novalidate>
+    <div class="field">
+      <label for="name">Write your Email</label>
+      <input type="email" id="name" name="name" placeholder="e.g. jane@company.com" required>
+      <span class="error-msg" data-for="name"></span>
+    </div>
+
+    <div class="field">
+      <label for="industry">Choose the Industry</label>
+      <select id="industry" name="industry" required>
+        <option value="" disabled selected hidden>Select an industry</option>
+        <option value="business-services">Business Services</option>
+        <option value="community-nonprofit-organizations">Community &amp; Nonprofit Organizations</option>
+        <option value="construction">Construction</option>
+        <option value="education">Education</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="farming-ranching-forestry">Farming, Ranching, Forestry</option>
+        <option value="finance">Finance</option>
+        <option value="healthcare">Healthcare</option>
+        <option value="hospitality">Hospitality</option>
+        <option value="manufacturing">Manufacturing</option>
+        <option value="retail-wholesale-trade">Retail &amp; Wholesale Trade</option>
+        <option value="technology-information-media">Technology, Information &amp; Media</option>
+        <option value="transportation-logistics">Transportation &amp; Logistics</option>
+        <option value="utilities">Utilities</option>
+      </select>
+      <span class="error-msg" data-for="industry"></span>
+    </div>
+
+    <div class="field">
+      <label for="request">Specific request</label>
+      <select id="request" name="request" required>
+        <option value="" disabled selected hidden>Select a request type</option>
+        <option value="find-contact">Find me this contact</option>
+        <option value="enrich-list">Enrich for me a list</option>
+      </select>
+      <span class="error-msg" data-for="request"></span>
+    </div>
+
+    <div class="field" id="linkedinField" hidden>
+      <label for="linkedinUrl">LinkedIn profile URL</label>
+      <input type="url" id="linkedinUrl" name="linkedinUrl" placeholder="https://www.linkedin.com/in/jane-doe">
+      <span class="error-msg" data-for="linkedinUrl"></span>
+    </div>
+
+    <div class="field">
+      <label for="fileLink">Data Link</label>
+      <input type="url" id="fileLink" name="fileLink" placeholder="Paste a Google Drive, Dropbox, or other file link">
+      <span class="error-msg" data-for="fileLink"></span>
+    </div>
+
+    <button type="submit" class="confirm-btn">Confirm</button>
+  </form>
+</div>
+
+<div id="thankYouView" class="view thankyou" hidden>
+  <p class="thankyou-headline">
+    <span>Thank</span>
+    <span class="thankyou-line2">
+      <span class="thankyou-arrow" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span>You</span>
+    </span>
+  </p>
+  <p class="thankyou-message">
+    For submitting your request. It will take approximately 20&ndash;35 minutes to process. We&rsquo;ll send your data directly to your email once it&rsquo;s ready.
+  </p>
+</div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
