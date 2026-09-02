@@ -2,6 +2,6 @@
   "name": "flapkap-data-request",
   "private": true,
   "scripts": {
-    "start": "npx --yes serve . -l ${PORT:-3000}"
+    "start": "node server.js"
   }
 }
