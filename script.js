@@ -17,9 +17,8 @@ const EMAILJS_PUBLIC_KEY = '7UvSbXxegKQ-Yvoqy';
 const EMAILJS_SERVICE_ID = 'service_oru5nm2';
 const EMAILJS_TEMPLATE_ID = 'template_r1feoxe';
 
-// The dashboard lives in its own repo, served from the same github.io origin so both
-// pages share browser storage.
-const LEAD_GEN_PAGE_URL = 'https://arigueossama-oss.github.io/Flapkap-Dashboard-lead-gen/';
+// Absolute URL built from the current host, so the emailed button works wherever this is deployed.
+const LEAD_GEN_PAGE_URL = new URL('dashboard.html', window.location.href).href;
 
 if (!EMAILJS_PUBLIC_KEY.startsWith('PASTE_')) {
   emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
