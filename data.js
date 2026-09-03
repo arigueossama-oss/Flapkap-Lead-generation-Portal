@@ -1,7 +1,7 @@
 // Shared Supabase access for both screens. The anon key is meant to be public —
 // it only grants what the row level security policies in supabase-setup.sql allow.
 const SUPABASE_URL = 'https://vixlylixfbidcdrrgwzv.supabase.co';
-const SUPABASE_ANON_KEY = 'PASTE_YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpeGx5bGl4ZmJpZGNkcnJnd3p2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MjY3MzcsImV4cCI6MjEwNDAwMjczN30.Se-WS2XJtN9pOkJlWad65Q7hBwyMkgKKJLhJy9YrLbM';
 
 const REQUESTS_ENDPOINT = SUPABASE_URL + '/rest/v1/requests';
 
