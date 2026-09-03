@@ -41,7 +41,7 @@ function escapeHtml(value) {
 
 function messageRow(text) {
   const row = document.createElement('tr');
-  row.innerHTML = '<td class="empty" colspan="7">' + escapeHtml(text) + '</td>';
+  row.innerHTML = '<td class="empty" colspan="8">' + escapeHtml(text) + '</td>';
   return row;
 }
 
@@ -69,11 +69,16 @@ function render() {
       ? '<span class="pill pill--done">' + formatDuration(item.requested_at, item.fulfilled_at) + '</span>'
       : '<span class="pill pill--pending">Pending</span>';
 
+    const sourceCell = item.source_link
+      ? '<a href="' + escapeHtml(item.source_link) + '" target="_blank" rel="noopener">View data</a>'
+      : '<span class="muted">None attached</span>';
+
     row.innerHTML =
       '<td class="num">' + (index + 1) + '</td>'
       + '<td>' + escapeHtml(item.bdr_email) + '</td>'
       + '<td>' + escapeHtml(item.industry) + '</td>'
       + '<td>' + escapeHtml(item.request) + '</td>'
+      + '<td>' + sourceCell + '</td>'
       + '<td>' + formatTimestamp(item.requested_at) + '</td>'
       + '<td class="link-cell">' + linkCell + '</td>'
       + '<td>' + timeCell + '</td>';

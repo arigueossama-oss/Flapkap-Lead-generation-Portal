@@ -104,7 +104,7 @@ form.addEventListener('submit', async (e) => {
       bdrEmail,
       industry,
       request: requestSummary,
-      link: fileLink || null,
+      sourceLink: fileLink || null,
     });
   } catch (err) {
     console.error('Could not save the request:', err);

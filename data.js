@@ -30,7 +30,7 @@ async function createRequest(record) {
       bdr_email: record.bdrEmail,
       industry: record.industry,
       request: record.request,
-      link: record.link,
+      source_link: record.sourceLink,
     }),
   });
 

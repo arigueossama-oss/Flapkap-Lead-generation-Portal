@@ -5,10 +5,14 @@ create table if not exists public.requests (
   bdr_email text not null,
   industry text not null,
   request text not null,
-  link text,
+  source_link text,  -- data the BDR attached to the request
+  link text,         -- enriched data the Lead Gen team sends back
   requested_at timestamptz not null default now(),
   fulfilled_at timestamptz
 );
+
+-- For projects created before source_link existed.
+alter table public.requests add column if not exists source_link text;
 
 alter table public.requests enable row level security;
 
