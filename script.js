@@ -24,28 +24,6 @@ if (!EMAILJS_PUBLIC_KEY.startsWith('PASTE_')) {
   emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 }
 
-// Requests are kept in browser storage so the dashboard can list them. Swap these two
-// functions for a database call when the pipeline needs to be shared across machines.
-const STORAGE_KEY = 'flapkap_requests';
-
-function loadRequests() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-  } catch (err) {
-    console.warn('Could not read stored requests:', err);
-    return [];
-  }
-}
-
-function saveRequest(record) {
-  try {
-    const all = loadRequests();
-    all.push(record);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
-  } catch (err) {
-    console.warn('Could not store request:', err);
-  }
-}
 
 requestSelect.addEventListener('change', () => {
   const isFindContact = requestSelect.value === 'find-contact';
@@ -121,6 +99,21 @@ form.addEventListener('submit', async (e) => {
     accept_url: acceptUrl,
   };
 
+  try {
+    await createRequest({
+      bdrEmail,
+      industry,
+      request: requestSummary,
+      link: fileLink || null,
+    });
+  } catch (err) {
+    console.error('Could not save the request:', err);
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Confirm';
+    setFieldError('request', 'Something went wrong saving your request. Please try again.');
+    return;
+  }
+
   if (EMAILJS_PUBLIC_KEY.startsWith('PASTE_')) {
     console.warn('EmailJS is not configured yet — see the setup steps for the required account values.');
     console.log('Data request (not sent):', templateParams);
@@ -128,23 +121,9 @@ form.addEventListener('submit', async (e) => {
     try {
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
     } catch (err) {
-      console.error('Submission failed:', err);
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Confirm';
-      setFieldError('request', 'Something went wrong sending your request. Please try again.');
-      return;
+      console.error('Could not send the notification email:', err);
     }
   }
-
-  saveRequest({
-    id: Date.now(),
-    from: bdrEmail,
-    industry,
-    request: requestSummary,
-    requestedAt: new Date().toISOString(),
-    link: fileLink || null,
-    fulfilledAt: null,
-  });
 
   formView.hidden = true;
   thankYouView.hidden = false;

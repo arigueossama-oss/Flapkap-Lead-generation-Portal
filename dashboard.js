@@ -6,28 +6,7 @@ if (!EMAILJS_PUBLIC_KEY.startsWith('PASTE_')) {
   emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 }
 
-// Shared with the request form in script.js. Swap these two functions for database
-// calls when the pipeline needs to be shared across machines.
-const STORAGE_KEY = 'flapkap_requests';
-
-function loadRequests() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-  } catch (err) {
-    console.warn('Could not read stored requests:', err);
-    return [];
-  }
-}
-
-function persistRequests(list) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-  } catch (err) {
-    console.warn('Could not store requests:', err);
-  }
-}
-
-const requests = loadRequests();
+let requests = [];
 
 const rowsEl = document.getElementById('rows');
 const statSubEl = document.getElementById('statSub');
@@ -60,21 +39,24 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;');
 }
 
+function messageRow(text) {
+  const row = document.createElement('tr');
+  row.innerHTML = '<td class="empty" colspan="7">' + escapeHtml(text) + '</td>';
+  return row;
+}
+
 function render() {
   rowsEl.innerHTML = '';
 
   if (requests.length === 0) {
-    const row = document.createElement('tr');
-    row.innerHTML = '<td class="empty" colspan="7">No requests yet. '
-      + 'Submissions from the Flapkap Data request page will appear here.</td>';
-    rowsEl.appendChild(row);
+    rowsEl.appendChild(messageRow('No requests yet. Submissions from the Flapkap Data request page will appear here.'));
     renderStats();
     return;
   }
 
   requests.forEach((item, index) => {
     const row = document.createElement('tr');
-    const isFulfilled = Boolean(item.link && item.fulfilledAt);
+    const isFulfilled = Boolean(item.link && item.fulfilled_at);
 
     const linkCell = isFulfilled
       ? '<a href="' + escapeHtml(item.link) + '" target="_blank" rel="noopener">Open link</a>'
@@ -84,15 +66,15 @@ function render() {
         + '</div>';
 
     const timeCell = isFulfilled
-      ? '<span class="pill pill--done">' + formatDuration(item.requestedAt, item.fulfilledAt) + '</span>'
+      ? '<span class="pill pill--done">' + formatDuration(item.requested_at, item.fulfilled_at) + '</span>'
       : '<span class="pill pill--pending">Pending</span>';
 
     row.innerHTML =
       '<td class="num">' + (index + 1) + '</td>'
-      + '<td>' + escapeHtml(item.from) + '</td>'
+      + '<td>' + escapeHtml(item.bdr_email) + '</td>'
       + '<td>' + escapeHtml(item.industry) + '</td>'
       + '<td>' + escapeHtml(item.request) + '</td>'
-      + '<td>' + formatTimestamp(item.requestedAt) + '</td>'
+      + '<td>' + formatTimestamp(item.requested_at) + '</td>'
       + '<td class="link-cell">' + linkCell + '</td>'
       + '<td>' + timeCell + '</td>';
 
@@ -116,7 +98,7 @@ function render() {
 
 function renderStats() {
   const total = requests.length;
-  const fulfilled = requests.filter((item) => item.link && item.fulfilledAt).length;
+  const fulfilled = requests.filter((item) => item.link && item.fulfilled_at).length;
   const pending = total - fulfilled;
   const percent = total === 0 ? 0 : Math.round((fulfilled / total) * 100);
 
@@ -146,25 +128,47 @@ async function saveLink(item, input, button) {
   button.disabled = true;
   button.textContent = 'Saving...';
 
-  item.link = link;
-  item.fulfilledAt = new Date().toISOString();
-  persistRequests(requests);
+  try {
+    const updated = await attachLink(item.id, link);
+    item.link = updated.link;
+    item.fulfilled_at = updated.fulfilled_at;
+  } catch (err) {
+    console.error('Could not save the link:', err);
+    button.disabled = false;
+    button.textContent = 'Save';
+    noteEl.textContent = 'Could not save that link. Check your connection and try again.';
+    return;
+  }
 
   try {
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_email: item.from,
+      to_email: item.bdr_email,
       industry: item.industry,
       request: item.request,
       file_link: link,
     });
-    noteEl.textContent = 'Link saved and emailed to ' + item.from + '.';
+    noteEl.textContent = 'Link saved and emailed to ' + item.bdr_email + '.';
   } catch (err) {
     console.error('Email send failed:', err);
-    noteEl.textContent = 'Link and turnaround time saved, but the email to ' + item.from + ' could not be sent. '
-      + 'Check the browser console for details.';
+    noteEl.textContent = 'Link saved, but the email to ' + item.bdr_email + ' could not be sent.';
   }
 
   render();
 }
 
-render();
+async function load() {
+  rowsEl.appendChild(messageRow('Loading requests...'));
+
+  try {
+    requests = await listRequests();
+  } catch (err) {
+    console.error('Could not load requests:', err);
+    rowsEl.innerHTML = '';
+    rowsEl.appendChild(messageRow('Could not load requests. Check the connection settings and refresh.'));
+    return;
+  }
+
+  render();
+}
+
+load();
