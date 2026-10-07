@@ -12,7 +12,24 @@
 </head>
 <body>
 
-<main class="card">
+<section class="lock-card" id="lockCard" hidden>
+  <div class="logo">
+    <span class="logo-text">FlapKap</span>
+    <span class="logo-mark" aria-hidden="true">
+      <span class="teal"></span>
+      <span class="blue"></span>
+    </span>
+  </div>
+  <h1 class="lock-title">Lead generation portal</h1>
+  <p class="lock-sub">Enter the team password to open the request pipeline.</p>
+  <form id="lockForm">
+    <input type="password" id="passwordInput" placeholder="Password" aria-label="Portal password" autocomplete="current-password">
+    <p class="lock-error" id="lockError">&nbsp;</p>
+    <button type="submit" class="lock-btn">Open dashboard</button>
+  </form>
+</section>
+
+<main class="card" id="dashboardCard" hidden>
   <div class="card-head">
     <h1>Flapkap lead generation Dashboard</h1>
     <span class="logo" aria-label="FlapKap">

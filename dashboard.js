@@ -176,4 +176,58 @@ async function load() {
   render();
 }
 
-load();
+// Keeps people who only have the request form from wandering into the pipeline.
+// It is a speed bump, not real security — the page source reveals the password.
+const PORTAL_PASSWORD = '12345';
+const UNLOCKED_KEY = 'flapkap_portal_unlocked';
+
+const lockCard = document.getElementById('lockCard');
+const dashboardCard = document.getElementById('dashboardCard');
+const lockForm = document.getElementById('lockForm');
+const passwordInput = document.getElementById('passwordInput');
+const lockError = document.getElementById('lockError');
+
+function unlock() {
+  lockCard.hidden = true;
+  dashboardCard.hidden = false;
+  load();
+}
+
+function wasUnlockedThisSession() {
+  try {
+    return sessionStorage.getItem(UNLOCKED_KEY) === 'yes';
+  } catch (err) {
+    return false;
+  }
+}
+
+lockForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  if (passwordInput.value !== PORTAL_PASSWORD) {
+    passwordInput.classList.add('invalid');
+    lockError.textContent = 'That password is not right.';
+    passwordInput.select();
+    return;
+  }
+
+  try {
+    sessionStorage.setItem(UNLOCKED_KEY, 'yes');
+  } catch (err) {
+    console.warn('Could not remember the unlock for this tab:', err);
+  }
+
+  unlock();
+});
+
+passwordInput.addEventListener('input', () => {
+  passwordInput.classList.remove('invalid');
+  lockError.textContent = ' ';
+});
+
+if (wasUnlockedThisSession()) {
+  unlock();
+} else {
+  lockCard.hidden = false;
+  passwordInput.focus();
+}

@@ -50,6 +50,79 @@ body {
   box-shadow: 0 0 0 1px var(--card-ring), 0 30px 60px -20px rgba(9, 6, 74, 0.45);
 }
 
+.lock-card {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 8vh;
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 40px 40px 44px;
+  box-shadow: 0 0 0 1px var(--card-ring), 0 30px 60px -20px rgba(9, 6, 74, 0.45);
+}
+
+.lock-card .logo { margin-bottom: 28px; }
+
+.lock-title {
+  font-family: "Poppins", "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin: 0 0 8px;
+}
+
+.lock-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+
+.lock-card input {
+  width: 100%;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--input-bg);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.lock-card input:focus {
+  border-color: var(--flapkap-blue);
+  box-shadow: 0 0 0 3px rgba(36, 21, 224, 0.14);
+}
+
+.lock-card input.invalid {
+  border-color: var(--error);
+  background: #fdf1f0;
+}
+
+.lock-error {
+  min-height: 18px;
+  margin: 6px 0 10px;
+  font-size: 12px;
+  color: var(--error);
+}
+
+.lock-btn {
+  width: 100%;
+  padding: 13px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--flapkap-blue);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.lock-btn:hover { opacity: 0.9; }
+
 .card-head {
   display: flex;
   align-items: flex-start;

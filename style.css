@@ -59,11 +59,38 @@ body {
   max-width: 620px;
 }
 
+.top-bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 44px;
+}
+
 .logo {
   display: flex;
   align-items: flex-start;
   gap: 4px;
-  margin-bottom: 44px;
+}
+
+.dashboard-btn {
+  flex-shrink: 0;
+  margin-top: 4px;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--flapkap-blue);
+  background: #ffffff;
+  border: 1.5px solid var(--flapkap-blue);
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.dashboard-btn:hover {
+  background: var(--flapkap-blue);
+  color: #ffffff;
 }
 
 .logo-text {
