@@ -1,0 +1,6 @@
+name = "flapkap-lead-generation-portal"
+compatibility_date = "2025-01-01"
+
+# No Worker script — Cloudflare just serves the files in this folder.
+[assets]
+directory = "./"
